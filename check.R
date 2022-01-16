@@ -1,11 +1,12 @@
 library(pkgcheck)
 library(magrittr)
 
+pkgstats::ctags_install(sudo = TRUE)
+
 check <- pkgcheck()
-print(check$info$network_file)
 paste0(
     "::set-output name=visnet_path::",
-    check$info$network_file, 
+    check$info$network_file,
     "\n"
 ) %>% cat()
 
@@ -17,7 +18,7 @@ file.copy(tmp_file, file)
 
 paste0(
     "::set-output name=results::",
-   file,
+    file,
     "\n"
 ) %>% cat()
 
