@@ -11,7 +11,11 @@ paste0(
 
 md <- checks_to_markdown(check)
 writeLines(md, "pkgcheck-results.md")
-rmarkdown::render("pkgcheck-results.md", quiet = TRUE)
+paste0(
+    "::set-output name=results::",
+    render_markdown(md, FALSE),
+    "\n"
+) %>% cat()
 
 errors <- grep(":heavy_multiplication_x:", md) %>%
     `[`(md, .) %>%
