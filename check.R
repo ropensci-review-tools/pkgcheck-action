@@ -23,5 +23,5 @@ for (error in errors) {
 }
 
 cat("::group::Check Results\n")
-check
+print(check)
 cat("::endgroup::\n")
