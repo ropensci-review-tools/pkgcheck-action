@@ -4,7 +4,7 @@ library(magrittr)
 check <- pkgcheck()
 paste0("::set-output name=visnet_path::", check$info$network_file) %>% cat()
 
-md <- check_to_markdown(check)
+md <- checks_to_markdown(check)
 writeLines(md, "pkgcheck-results.md")
 rmarkdown::render("pkgcheck-results.md")
 
