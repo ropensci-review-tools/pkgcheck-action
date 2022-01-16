@@ -11,9 +11,13 @@ paste0(
 
 md <- checks_to_markdown(check)
 writeLines(md, "pkgcheck-results.md")
+tmp_file <- render_markdown(md, FALSE)
+file <- basename(tmp_file)
+file.copy(tmp_file, file)
+
 paste0(
     "::set-output name=results::",
-    render_markdown(md, FALSE),
+   file,
     "\n"
 ) %>% cat()
 
