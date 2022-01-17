@@ -24,7 +24,6 @@ paste0(
 ) %>% cat()
 cat("::endgroup::\n")
 
-cat("::group::Check Results\n")
 errors <- grep(":heavy_multiplication_x:", md) %>%
     `[`(md, .) %>%
     gsub("- :heavy_multiplication_x:", "::error ::", .) %>%
@@ -34,6 +33,6 @@ for (error in errors) {
     cat(error)
 }
 
-
+cat("::group::Check Results\n")
 print(check)
 cat("::endgroup::\n")
