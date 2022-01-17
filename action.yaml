@@ -1,10 +1,5 @@
 name: 'pkgcheck'
 description: 'Test your package with {pkgcheck}.'
-inputs:
-  cache-version:
-    description: 'Integer to use as cache version. Increment to use new cache.'
-    required: true
-    default: 1
     
 runs:
   using: "composite"
@@ -13,7 +8,7 @@ runs:
       uses: actions/checkout@v2
       with:
          fetch-depth: 0
-    - uses: Dockerfile
+    - uses: docker://ghcr.io/assignuser/pkgcheck-base:actual-docker
       id: pkgcheck
     - uses: actions/upload-artifact@v2
       with:
