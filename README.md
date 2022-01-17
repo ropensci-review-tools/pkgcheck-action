@@ -1,4 +1,4 @@
-Example script:
+Example workflow file:
 
 ```yaml
 name: pkgcheck
@@ -16,7 +16,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: assignUser/pkgcheck-action@docker
+      - uses: assignUser/pkgcheck-action@main
         with:
           cache-version: 1
         
