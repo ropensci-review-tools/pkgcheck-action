@@ -12,7 +12,9 @@ on: workflow_dispatch
 jobs: 
   check:
     runs-on: ubuntu-latest
-    container: mpdage/pkgcheck
+    container: mpadge/pkgcheck
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: assignUser/pkgcheck-action@docker
         with:
