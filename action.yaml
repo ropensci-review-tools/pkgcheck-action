@@ -22,7 +22,7 @@ runs:
           github::ropensci-review-tools/pkgcheck
     - name: Run pkgcheck
       id: pkgcheck
-      run: source("${{ github.action_path }}/check.R")
+      run: source("${GITHUB_ACTION_PATH}/check.R")
       shell: Rscript {0}
     - uses: actions/upload-artifact@v2
       with:
