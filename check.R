@@ -1,6 +1,7 @@
 library(pkgcheck)
 library(magrittr)
 
+cat("::group::Running pkgcheck\n")
 pkgstats::ctags_install(sudo = TRUE)
 
 check <- pkgcheck()
@@ -21,7 +22,9 @@ paste0(
     file,
     "\n"
 ) %>% cat()
+cat("::endgroup::\n")
 
+cat("::group::Check Results\n")
 errors <- grep(":heavy_multiplication_x:", md) %>%
     `[`(md, .) %>%
     gsub("- :heavy_multiplication_x:", "::error ::", .) %>%
@@ -31,6 +34,6 @@ for (error in errors) {
     cat(error)
 }
 
-cat("::group::Check Results\n")
+
 print(check)
 cat("::endgroup::\n")
