@@ -15,6 +15,8 @@ jobs:
     container: mpadge/pkgcheck
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      #Not required but can speed up the action
+      RSPM: 'https://packagemanager.rstudio.com/all/__linux__/focal/latest'
     steps:
       - uses: assignUser/pkgcheck-action@docker
         with:

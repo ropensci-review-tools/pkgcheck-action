@@ -13,17 +13,8 @@ runs:
       uses: actions/checkout@v2
       with:
          fetch-depth: 0
-    - uses: r-lib/actions/setup-r-dependencies@v2
-      with:
-        cache-version: ${{ inputs.cache_version }}
-        extra-packages: |
-          local::.
-          magrittr
-          github::ropensci-review-tools/pkgcheck
-    - name: Run pkgcheck
+    - uses: Dockerfile
       id: pkgcheck
-      run: source(paste0(Sys.getenv("GITHUB_ACTION_PATH"), "/check.R"))
-      shell: Rscript {0}
     - uses: actions/upload-artifact@v2
       with:
         name: visual-network
