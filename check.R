@@ -54,5 +54,6 @@ cat("::group::Check Results\n")
 print(check)
 cat("::endgroup::\n")
 
-# Set Exitstatus so Github action fails
-if (length(errors) > 0) q("no", status = 1)
+as.numeric(length(errors) > 0) %>%
+    paste0("::set-output name=status::", ., "\n") %>%
+    cat()
