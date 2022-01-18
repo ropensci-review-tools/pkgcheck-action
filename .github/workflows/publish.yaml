@@ -5,6 +5,10 @@ on:
   schedule: 
     - cron: '0 1 * * 1' # 1h after pkgcheck build action
   push:
+    paths-ignore:
+      - 'action.yaml'
+      - 'README.md'
+
     # Publish `main` as Docker `latest` image.
     branches:
       - actual-docker
