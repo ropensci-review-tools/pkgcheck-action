@@ -1,14 +1,23 @@
 name: 'pkgcheck'
 description: 'Test your package with {pkgcheck}.'
-    
+inputs:
+  ref:
+    description: 'The ref to checkout and check. Set to empty string to skip checkout.'
+    default: '${{ github.ref }}'
+    required: true
+
 runs:
   using: "composite"
   steps:
     - name: Checkout repo
+      if: ${{ inputs.ref != ''}} 
       uses: actions/checkout@v2
       with:
-         fetch-depth: 0
+        ref: '${{ inputs.ref }}'
+        fetch-depth: 0
     - uses: docker://ghcr.io/assignuser/pkgcheck-base:actual-docker
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       id: pkgcheck
     - uses: actions/upload-artifact@v2
       with:

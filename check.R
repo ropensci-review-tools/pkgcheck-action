@@ -1,15 +1,17 @@
 library(pkgcheck)
 library(magrittr)
 
+pak::pak_update()
+
 cat("::group::Install dependencies\n\n")
-dir.create(".github", showWarnings = FALSE)
+file_dir <- fs::dir_create(".pkgcheck")
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
 pak::lockfile_create(
     "local::.",
-    lockfile = ".github/pkg.lock",
+    lockfile = ".pkgcheck/pkg.lock",
     dependencies = "all"
 )
-pak::lockfile_install(".github/pkg.lock")
+pak::lockfile_install(".pkgcheck/pkg.lock")
 if (packageVersion("sessioninfo") >= "1.2.1") {
     sessioninfo::session_info(pkgs = "installed", include_base = TRUE)
 } else {
@@ -24,12 +26,12 @@ pkgstats::ctags_install(sudo = TRUE)
 check <- pkgcheck()
 paste0(
     "::set-output name=visnet_path::",
-    fs::file_copy(check$info$network_file, getwd()),
+    fs::file_copy(check$info$network_file, file_dir),
     "\n"
 ) %>% cat()
 
-writeLines(md, "pkgcheck-results.md")
-file <- render_markdown(md, FALSE) %>% fs::file_copy(getwd())
+writeLines(md, fs::path(file_dir, "pkgcheck-results.md"))
+file <- render_markdown(md, FALSE) %>% fs::file_copy(file_dir)
 
 paste0(
     "::set-output name=results::",
