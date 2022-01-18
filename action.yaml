@@ -19,7 +19,7 @@ runs:
       with:
         ref: '${{ inputs.ref }}'
         fetch-depth: 0
-    - uses: 'docker://ghcr.io/ropensci-review-tools/pkgcheck-action:${{ inputs.image-version }}'
+    - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:main
       env:
         GITHUB_TOKEN: ${{ github.token }}
       id: pkgcheck
