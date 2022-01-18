@@ -1,5 +1,6 @@
 library(pkgcheck)
 library(magrittr)
+
 cat("::group::Install dependencies\n\n")
 dir.create(".github", showWarnings = FALSE)
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
@@ -23,15 +24,12 @@ pkgstats::ctags_install(sudo = TRUE)
 check <- pkgcheck()
 paste0(
     "::set-output name=visnet_path::",
-    check$info$network_file,
+    fs::file_copy(check$info$network_file, getwd()),
     "\n"
 ) %>% cat()
 
-md <- checks_to_markdown(check)
 writeLines(md, "pkgcheck-results.md")
-tmp_file <- render_markdown(md, FALSE)
-file <- basename(tmp_file)
-file.copy(tmp_file, file)
+file <- render_markdown(md, FALSE) %>% fs::file_copy(getwd())
 
 paste0(
     "::set-output name=results::",
@@ -52,3 +50,6 @@ for (error in errors) {
 cat("::group::Check Results\n")
 print(check)
 cat("::endgroup::\n")
+
+# Set Exitstatus so Github action fails
+if (length(errors) > 0) q("no", status = 1)
