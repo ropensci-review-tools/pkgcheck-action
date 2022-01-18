@@ -15,7 +15,7 @@ runs:
       with:
         ref: '${{ inputs.ref }}'
         fetch-depth: 0
-    - uses: docker://ghcr.io/assignuser/pkgcheck-base:actual-docker
+    - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:edge
       env:
         GITHUB_TOKEN: ${{ github.token }}
       id: pkgcheck

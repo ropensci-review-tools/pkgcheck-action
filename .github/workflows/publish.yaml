@@ -15,8 +15,6 @@ on:
   # Run tests for any PRs.
   pull_request:
 
-env:
-  IMAGE_NAME: pkgcheck-base
 
 jobs:
   # Run tests.
