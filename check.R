@@ -30,6 +30,7 @@ paste0(
     "\n"
 ) %>% cat()
 
+md <- checks_to_markdown(check)
 writeLines(md, fs::path(file_dir, "pkgcheck-results.md"))
 file <- render_markdown(md, FALSE) %>% fs::file_copy(file_dir)
 
