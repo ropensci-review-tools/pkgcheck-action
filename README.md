@@ -23,5 +23,5 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: ropensci-review-tools/pkgcheck-action@v0
+      - uses: ropensci-review-tools/pkgcheck-action@main
 ```

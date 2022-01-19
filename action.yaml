@@ -5,10 +5,6 @@ inputs:
     description: 'The ref to checkout and check. Set to empty string to skip checkout.'
     default: '${{ github.ref }}'
     required: true
-  image-version:
-    description: 'Version of the pkgcheck-action image to use.'
-    default: '0.0.2'
-    required: true
 
 runs:
   using: "composite"
@@ -19,7 +15,7 @@ runs:
       with:
         ref: '${{ inputs.ref }}'
         fetch-depth: 0
-    - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:main
+    - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:latest
       env:
         GITHUB_TOKEN: ${{ github.token }}
       id: pkgcheck
