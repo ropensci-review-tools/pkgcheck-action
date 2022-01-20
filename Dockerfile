@@ -1,4 +1,4 @@
-FROM mpadge/pkgcheck
+FROM ghcr.io/ropensci-review-tools/pkgcheck:latest
 LABEL maintainer="Jacob Wujciak-Jens <jacob@wujciak.de>"
 
 COPY check.R /check.R
