@@ -27,18 +27,18 @@ runs:
       with:
         ref: "${{ inputs.ref }}"
         fetch-depth: 0
-    - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:latest
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      id: pkgcheck
-    - uses: actions/upload-artifact@v2
-      with:
-        name: visual-network
-        path: "${{ steps.pkgcheck.outputs.visnet_path }}"
-    - uses: actions/upload-artifact@v2
-      with:
-        name: results
-        path: "${{ steps.pkgcheck.outputs.results }}"
+    # - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:latest
+    #   env:
+    #     GITHUB_TOKEN: ${{ github.token }}
+    #   id: pkgcheck
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: visual-network
+    #     path: "${{ steps.pkgcheck.outputs.visnet_path }}"
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: results
+    #     path: "${{ steps.pkgcheck.outputs.results }}"
     - name: Check for active issue
       id: get-id
       if: ${{ inputs.post-to-issue}}
@@ -66,28 +66,42 @@ runs:
         result-encoding: string
         script: |
           return "${{ github.repository }}".split("/", 2)[1]
-    - name: Update Issue
-      if: ${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue}}
+    - id: get-body
+      uses: actions/github-script@v5
+      with:
+        script:
+    - name: Creat/Update Issue
       uses: actions/github-script@v5
       with:
         script: |
-          github.rest.issues.update({
-            owner: "${{ github.repository_owner }}",
-            repo: "${{ steps.get-repo.outputs.result }}",
-            issue_number: ${{ steps.get-id.outputs.result }},
-            body: ${{ inputs.summary-only }} ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}",
-            })
-    - name: Create Issue
-      if: ${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue}}
-      uses: actions/github-script@v5
-      with:
-        script: |
-          github.rest.issues.create({
-            owner: "${{ github.repository_owner }}",
-            repo: "${{ steps.get-repo.outputs.result }}",
-            title: "${{ inputs.issue-title }}",
-            body: "${{ inputs.summary-only }}" === "true" ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}",
-            })
-    - name: Fail if pkgcheck found problems
-      run: exit ${{ steps.pkgcheck.outputs.status }}
-      shell: bash
+          const fs = require('fs')
+
+          try {
+            const issue_body = fs.readFileSync("${{ github.action_path }}/results.md", 'utf8')
+            console.log(issue_body)
+          } catch (err) {
+            console.error(err)
+          }
+
+          const owner = "${{ github.repository_owner }}"
+          const repo = "${{ steps.get-repo.outputs.result }}"
+
+          if (${{ steps.get - id.outputs.result != -1 && inputs.post-to-issue }}) {
+              github.rest.issues.update({
+                  owner: owner,
+                  repo: repo,
+                  issue_number: "${{ steps.get - id.outputs.result }}",
+                  body: issue_body,
+              })
+          } else if (${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue }}) {
+              github.rest.issues.create({
+                  owner: owner,
+                  repo: repo,
+                  title: "${{ inputs.issue-title }}",
+                  body: issue_body
+              })
+          }
+          
+    # - name: Fail if pkgcheck found problems
+    #   run: exit ${{ steps.pkgcheck.outputs.status }}
+    #   shell: bash
