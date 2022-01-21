@@ -58,6 +58,13 @@ runs:
             issue_nr = typeof issue === 'undefined' ? -1 : issue.number
           }
           return issue_nr
+    - id: get-repo
+      if: ${{ inputs.post-to-issue}}
+      uses: actions/github-script@v5
+      with:
+        result-encoding: string
+        script: |
+          '${{ github.repository }}'.split('/', 2)[1]
     - name: Update Issue
       if: ${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue}}
       uses: actions/github-script@v5
@@ -65,7 +72,7 @@ runs:
         script: |
           github.rest.issues.update({
             owner: '${{ github.repository_owner }}',
-            repo: '${{ github.repository }}'.split('/', 2),
+            repo: '${{ steps.get-repo.outputs.result }}',
             issue_number: ${{ steps.get-id.outputs.result }},
             body: "results 2",
             })
@@ -76,7 +83,7 @@ runs:
         script: |
           github.rest.issues.create({
             owner: '${{ github.repository_owner }}',
-            repo: '${{ github.repository }}'.split('/', 2)[1],
+            repo: '${{ steps.get-repo.outputs.result }}',
             title: '${{ inputs.issue-title }}',
             body: "NO",
             })
