@@ -51,6 +51,9 @@ runs:
           if(typeof issues === 'undefined') {
             issue_nr = -1
           } else {
+            console.log("::group::Issues\n")
+            console.log(issues)
+            console.log("::endgroup::\n")
             const issue = issues.data.items.find(function (e) {
               e.title === '${{ inputs.issue-title }}' &&
                 e.state === 'open' &&
