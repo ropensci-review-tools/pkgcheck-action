@@ -13,7 +13,11 @@ inputs:
     description: "Name for the issue containing the pkgcheck results. Will be created or updated."
     default: "pkgcheck results - ${{ github.ref_name }}"
     required: true
-
+  summary-only:
+    description: "Only post the check summary to issue. Set to false to get the full results in the issue."
+    default: true
+    required: true
+    
 runs:
   using: "composite"
   steps:
