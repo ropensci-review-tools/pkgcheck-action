@@ -71,7 +71,7 @@ runs:
       with:
         script: |
           const fs = require('fs')
-          const md_path = "${{ inputs.summary-only }}" === "true" ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}"
+          const md_path = ("${{ inputs.summary-only }}" === "true" ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}").trim()
           let issue_body;
 
           try {
