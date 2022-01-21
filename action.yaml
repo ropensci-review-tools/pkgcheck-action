@@ -44,8 +44,7 @@ runs:
       uses: actions/github-script@v5
       with:
         script: |
-          const bot_name = 'github-actions[bot]'
-          const query = "repo:${{ github.repository }} is:issue is:open user:" + bot_name + " in:title ${{ inputs.issue-title }}"
+          const query = "repo:${{ github.repository }} is:issue is:open user: in:title ${{ inputs.issue-title }}"
           const issues = await github.rest.search.issuesAndPullRequests({ q: query, sort: "created" })
           let issue_nr
           if(typeof issues === 'undefined') {
@@ -54,12 +53,12 @@ runs:
             console.log("::group::Issues\n")
             console.log(issues.data.items)
             console.log("::endgroup::\n")
-            const issue = issues.data.items.find(function (e) {
-            console.log(e.title === '${{ inputs.issue-title }}')
+            const issue = issues.data.items.find(e =>  
+
               e.title === '${{ inputs.issue-title }}' &&
                 e.state === 'open' &&
                 e.user.login === bot_name
-            })
+            )
             console.log(issue)
             issue_nr = typeof issue === 'undefined' ? -1 : issue.number
           }
