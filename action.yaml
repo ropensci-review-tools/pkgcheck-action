@@ -51,7 +51,7 @@ runs:
           if(typeof issues === 'undefined') {
             issue_id = -1
           } else {
-             const issue = issues.data.items.find(e => e.title === '${{ inputs.issue-title }}' && e.state === 'open')
+             const issue = issues.data.items.find(e => e.title === '${{ inputs.issue-title }}' && e.state === 'open' && e.user.login === 'github-actions')
              issue_id = typeof issue === 'undefined' ? -1 : issue.id
           }
           return issue_id
