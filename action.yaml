@@ -45,12 +45,12 @@ runs:
       with:
         script: |
           const query = "repo:${{ github.repository }} is:issue is:open user:app/github-actions in:title ${{ inputs.issue-title }}"
-          const issues = await github.rest.search.issuesAndPullRequests({ q: query, sort: "created" }).data.items
+          const issues = await github.rest.search.issuesAndPullRequests({ q: query, sort: "created" })
 
           if(typeof issues === 'undefined') {
             const issue_id = -1
           } else {
-             const issue = issues.find(e => e.title === '${{ inputs.issue-title }}')
+             const issue = issues.data.items.find(e => e.title === '${{ inputs.issue-title }}')
              const issue_id = typeof issue === 'undefined' ? -1 : issue.id
           }
           return issue_id
