@@ -82,7 +82,7 @@ runs:
           const owner = "${{ github.repository_owner }}"
           const repo = "${{ steps.get-repo.outputs.result }}"
 
-          if (${{ steps.get - id.outputs.result != -1 && inputs.post-to-issue }}) {
+          if (${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue }}) {
               github.rest.issues.update({
                   owner: owner,
                   repo: repo,
