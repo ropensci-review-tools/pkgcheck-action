@@ -23,21 +23,21 @@ runs:
       with:
         ref: "${{ inputs.ref }}"
         fetch-depth: 0
-    # - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:latest
-    #   env:
-    #     GITHUB_TOKEN: ${{ github.token }}
-    #   id: pkgcheck
-    # - uses: actions/upload-artifact@v2
-    #   with:
-    #     name: visual-network
-    #     path: "${{ steps.pkgcheck.outputs.visnet_path }}"
-    # - uses: actions/upload-artifact@v2
-    #   with:
-    #     name: results
-    #     path: "${{ steps.pkgcheck.outputs.results }}"
-    # - name: Fail if pkgcheck found problems
-    #   run: exit ${{ steps.pkgcheck.outputs.status }}
-    #   shell: bash
+    - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:latest
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      id: pkgcheck
+    - uses: actions/upload-artifact@v2
+      with:
+        name: visual-network
+        path: "${{ steps.pkgcheck.outputs.visnet_path }}"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: results
+        path: "${{ steps.pkgcheck.outputs.results }}"
+    - name: Fail if pkgcheck found problems
+      run: exit ${{ steps.pkgcheck.outputs.status }}
+      shell: bash
     - name: Check for active issue
       id: get-id
       if: ${{ inputs.post-to-issue}}
@@ -74,7 +74,7 @@ runs:
             owner: '${{ github.repository_owner }}',
             repo: '${{ steps.get-repo.outputs.result }}',
             issue_number: ${{ steps.get-id.outputs.result }},
-            body: "results 2",
+            body: ${{ inputs.summary-only }} ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}",
             })
     - name: Create Issue
       if: ${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue}}
@@ -85,6 +85,6 @@ runs:
             owner: '${{ github.repository_owner }}',
             repo: '${{ steps.get-repo.outputs.result }}',
             title: '${{ inputs.issue-title }}',
-            body: "NO",
+            body: ${{ inputs.summary-only }} ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}",
             })
           

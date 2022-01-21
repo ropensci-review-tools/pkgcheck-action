@@ -24,21 +24,43 @@ cat("::group::Running pkgcheck\n")
 pkgstats::ctags_install(sudo = TRUE)
 
 check <- pkgcheck()
-paste0(
+cat(
     "::set-output name=visnet_path::",
     fs::file_copy(check$info$network_file, file_dir),
     "\n"
-) %>% cat()
+)
+
+# Multiline-Strings have to be escaped to be used in gh step output
+escape_gh <- function(string) {
+    string %>%
+        gsub("%", "%25", .) %>%
+        gsub("\n", "%0A", .) %>%
+        gsub("\r", "%0D", .)
+}
 
 md <- checks_to_markdown(check)
-writeLines(md, fs::path(file_dir, "pkgcheck-results.md"))
+s_break <- md %>%
+    grep("---", .) %>%
+    .[[1]]
+
+md[1:(s_break - 1)] %>%
+    paste0(collapse = "\n") %>%
+    escape_gh() %>%
+    cat("::set-output name=summary_md::", ., "\n")
+
+md %>%
+    paste0(collapse = "\n") %>%
+    escape_gh() %>%
+    cat("::set-output name=full_md::", ., "\n")
+
+
 file <- render_markdown(md, FALSE) %>% fs::file_copy(file_dir)
 
-paste0(
+cat(
     "::set-output name=results::",
     file,
     "\n"
-) %>% cat()
+)
 cat("::endgroup::\n")
 
 errors <- grep(":heavy_multiplication_x:", md) %>%
@@ -55,5 +77,4 @@ print(check)
 cat("::endgroup::\n")
 
 as.numeric(length(errors) > 0) %>%
-    paste0("::set-output name=status::", ., "\n") %>%
-    cat()
+    cat("::set-output name=status::", ., "\n")
