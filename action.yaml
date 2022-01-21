@@ -50,7 +50,7 @@ runs:
           if(typeof issues === 'undefined') {
             const issue_id = -1
           } else {
-             const issue = issues.find(e => e.title === ${{ inputs.issue-title }})
+             const issue = issues.find(e => e.title === '${{ inputs.issue-title }}')
              const issue_id = typeof issue === 'undefined' ? -1 : issue.id
           }
           return issue_id
