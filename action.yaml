@@ -22,7 +22,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout repo
-      if: ${{ inputs.ref != ""}}
+      if: ${{ inputs.ref != ''}}
       uses: actions/checkout@v2
       with:
         ref: "${{ inputs.ref }}"
