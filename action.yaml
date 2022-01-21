@@ -50,7 +50,7 @@ runs:
           if(typeof issues === 'undefined') {
             issue_nr = -1
           } else {
-            const issue = issues.data.items.find(function (x) {
+            const issue = issues.data.items.find(function (e) {
               e.title === '${{ inputs.issue-title }}' &&
                 e.state === 'open' &&
                 e.user.login === 'github-actions'
