@@ -52,7 +52,7 @@ runs:
             issue_nr = -1
           } else {
             console.log("::group::Issues\n")
-            console.log(issues)
+            console.log(issues.data.items)
             console.log("::endgroup::\n")
             const issue = issues.data.items.find(function (e) {
               e.title === '${{ inputs.issue-title }}' &&
