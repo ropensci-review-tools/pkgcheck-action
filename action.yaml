@@ -45,6 +45,7 @@ runs:
       with:
         script: |
           const query = "repo:${{ github.repository }} is:issue is:open user:app/github-actions in:title ${{ inputs.issue-title }}"
+          console.log(query)
           const issues = await github.rest.search.issuesAndPullRequests({ q: query, sort: "created" })
           let issue_id
           if(typeof issues === 'undefined') {
