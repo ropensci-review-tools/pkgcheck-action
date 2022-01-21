@@ -67,8 +67,8 @@ runs:
             owner: '${{ github.repository_owner }}',
             repo: '${{ github.repository }}'.split('/', 2),
             issue_number: ${{ steps.get-id.outputs.result }},
-            body: "## Checks for [touchstone (v0.0.0.9002)](https://github.com/lorenzwalthert/touchstone)%0A%0Agit hash: [3c213df5](https://github.com/lorenzwalthert/touchstone/tree/3c213df5bb2c350603d821a934aab8716f439d87)%0A%0A- :heavy_check_mark: Package name is available%0A- :heavy_multiplication_x: does not have a 'CITATION' file.%0A- :heavy_multiplication_x: does not have a 'codemeta.json' file.%0A- :heavy_multiplication_x: does not have a 'contributing' file.%0A- :heavy_check_mark: uses 'roxygen2'.%0A- :heavy_check_mark: 'DESCRIPTION' has a URL field.%0A- :heavy_check_mark: 'DESCRIPTION' has a BugReports field.%0A- :heavy_check_mark: Package has at least one HTML vignette%0A- :heavy_multiplication_x: These functions do not have examples: [benchmark_analyze, benchmark_ls, benchmark_read, benchmark_run, benchmark_write, branch_get_or_fail, branch_install, path_pinned_asset, pr_comment, touchstone_managers, touchstone_script, use_touchstone].%0A- :heavy_multiplication_x:  Package has no continuous integration checks.%0A- :heavy_check_mark: Package coverage is 86%25.%0A- :heavy_check_mark: R CMD check found no errors.%0A- :heavy_check_mark: R CMD check found no warnings.%0A%0A**Important:** All failing checks above must be addressed prior to proceeding%0A%0APackage License: MIT + file LICENSE%0A",
-          })
+            body: "results 2",
+            })
     - name: Create Issue
       if: ${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue}}
       uses: actions/github-script@v5
@@ -78,6 +78,6 @@ runs:
             owner: '${{ github.repository_owner }}',
             repo: '${{ github.repository }}'.split('/', 2)[1],
             title: '${{ inputs.issue-title }}',
-            body: "## Checks for [touchstone (v0.0.0.9002)](https://github.com/lorenzwalthert/touchstone)%0A%0Agit hash: [3c213df5](https://github.com/lorenzwalthert/touchstone/tree/3c213df5bb2c350603d821a934aab8716f439d87)%0A%0A- :heavy_check_mark: Package name is available%0A- :heavy_multiplication_x: does not have a 'CITATION' file.%0A- :heavy_multiplication_x: does not have a 'codemeta.json' file.%0A- :heavy_multiplication_x: does not have a 'contributing' file.%0A- :heavy_check_mark: uses 'roxygen2'.%0A- :heavy_check_mark: 'DESCRIPTION' has a URL field.%0A- :heavy_check_mark: 'DESCRIPTION' has a BugReports field.%0A- :heavy_check_mark: Package has at least one HTML vignette%0A- :heavy_multiplication_x: These functions do not have examples: [benchmark_analyze, benchmark_ls, benchmark_read, benchmark_run, benchmark_write, branch_get_or_fail, branch_install, path_pinned_asset, pr_comment, touchstone_managers, touchstone_script, use_touchstone].%0A- :heavy_multiplication_x:  Package has no continuous integration checks.%0A- :heavy_check_mark: Package coverage is 86%25.%0A- :heavy_check_mark: R CMD check found no errors.%0A- :heavy_check_mark: R CMD check found no warnings.%0A%0A**Important:** All failing checks above must be addressed prior to proceeding%0A%0APackage License: MIT + file LICENSE%0A",
-          })
+            body: "NO",
+            })
           
