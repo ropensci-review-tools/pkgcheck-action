@@ -30,30 +30,16 @@ cat(
     "\n"
 )
 
-# Multiline-Strings have to be escaped to be used in gh step output
-# Doubele quotes also need to be switched to single quotes
-escape_gh <- function(string) {
-    string %>%
-        gsub("\"", "\'", .) %>%
-        gsub("%", "%25", .) %>%
-        gsub("\n", "%0A", .) %>%
-        gsub("\r", "%0D", .)
-}
-
 md <- checks_to_markdown(check)
 s_break <- md %>%
     grep("---", .) %>%
     .[[1]]
 
-md[1:(s_break - 1)] %>%
-    paste0(collapse = "\n") %>%
-    escape_gh() %>%
-    cat("::set-output name=summary_md::", ., "\n")
+writeLines(md[1:(s_break - 1)], "summary.md")
+cat("::set-output name=summary_md::", fs::path_wd("summary.md"), "\n")
 
-md %>%
-    paste0(collapse = "\n") %>%
-    escape_gh() %>%
-    cat("::set-output name=full_md::", ., "\n")
+writeLines(md, "full.md")
+cat("::set-output name=full_md::", fs::path_wd("summary.md"), "\n")
 
 
 file <- render_markdown(md, FALSE) %>% fs::file_copy(file_dir)

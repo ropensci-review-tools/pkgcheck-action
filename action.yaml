@@ -27,18 +27,18 @@ runs:
       with:
         ref: "${{ inputs.ref }}"
         fetch-depth: 0
-    # - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:latest
-    #   env:
-    #     GITHUB_TOKEN: ${{ github.token }}
-    #   id: pkgcheck
-    # - uses: actions/upload-artifact@v2
-    #   with:
-    #     name: visual-network
-    #     path: "${{ steps.pkgcheck.outputs.visnet_path }}"
-    # - uses: actions/upload-artifact@v2
-    #   with:
-    #     name: results
-    #     path: "${{ steps.pkgcheck.outputs.results }}"
+    - uses: docker://ghcr.io/ropensci-review-tools/pkgcheck-action:latest
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      id: pkgcheck
+    - uses: actions/upload-artifact@v2
+      with:
+        name: visual-network
+        path: "${{ steps.pkgcheck.outputs.visnet_path }}"
+    - uses: actions/upload-artifact@v2
+      with:
+        name: results
+        path: "${{ steps.pkgcheck.outputs.results }}"
     - name: Check for active issue
       id: get-id
       if: ${{ inputs.post-to-issue}}
@@ -71,9 +71,11 @@ runs:
       with:
         script: |
           const fs = require('fs')
+          const md_path = "${{ inputs.summary-only }}" === "true" ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}"
           let issue_body;
+
           try {
-            issue_body = fs.readFileSync("${{ github.action_path }}/results.md", 'utf8')
+            issue_body = fs.readFileSync(md_path, 'utf8')
             console.log(issue_body)
           } catch (err) {
             console.error(err)
@@ -98,6 +100,6 @@ runs:
               })
           }
           
-    # - name: Fail if pkgcheck found problems
-    #   run: exit ${{ steps.pkgcheck.outputs.status }}
-    #   shell: bash
+    - name: Fail if pkgcheck found problems
+      run: exit ${{ steps.pkgcheck.outputs.status }}
+      shell: bash
