@@ -17,7 +17,7 @@ inputs:
     description: "Only post the check summary to issue. Set to false to get the full results in the issue."
     default: true
     required: true
-    
+
 runs:
   using: "composite"
   steps:
@@ -39,9 +39,6 @@ runs:
       with:
         name: results
         path: "${{ steps.pkgcheck.outputs.results }}"
-    - name: Fail if pkgcheck found problems
-      run: exit ${{ steps.pkgcheck.outputs.status }}
-      shell: bash
     - name: Check for active issue
       id: get-id
       if: ${{ inputs.post-to-issue}}
@@ -91,4 +88,7 @@ runs:
             title: '${{ inputs.issue-title }}',
             body: ${{ inputs.summary-only }} ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}",
             })
+    - name: Fail if pkgcheck found problems
+      run: exit ${{ steps.pkgcheck.outputs.status }}
+      shell: bash
           
