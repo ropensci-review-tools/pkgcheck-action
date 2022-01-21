@@ -40,7 +40,7 @@ runs:
     #   shell: bash
     - name: Check for active issue
       id: get-id
-      if: $${{ inputs.post-to-issue}}
+      if: ${{ inputs.post-to-issue}}
       uses: actions/github-script@v5
       with:
         script: |
