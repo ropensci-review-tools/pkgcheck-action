@@ -74,7 +74,7 @@ runs:
       uses: actions/github-script@v5
       with:
         script: |
-          github.rest.issue.create({
+          github.rest.issues.create({
             owner: '${{ github.repository_owner }}',
             repo: '${{ github.repository }}'.split('/', 2)[1],
             title: '${{ inputs.issue-title }}',
