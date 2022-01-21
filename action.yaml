@@ -55,12 +55,15 @@ runs:
             console.log(issues.data.items)
             console.log("::endgroup::\n")
             const issue = issues.data.items.find(function (e) {
+            console.log(e.title === '${{ inputs.issue-title }}')
               e.title === '${{ inputs.issue-title }}' &&
                 e.state === 'open' &&
                 e.user.login === bot_name
             })
+            console.log(issue)
             issue_nr = typeof issue === 'undefined' ? -1 : issue.number
           }
+          console.log(issue_nr)
           return issue_nr
     - name: Update Issue
       if: ${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue}}
