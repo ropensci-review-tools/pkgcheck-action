@@ -31,8 +31,10 @@ cat(
 )
 
 # Multiline-Strings have to be escaped to be used in gh step output
+# Doubele quotes also need to be switched to single quotes
 escape_gh <- function(string) {
     string %>%
+        gsub("\"", "\'", .) %>%
         gsub("%", "%25", .) %>%
         gsub("\n", "%0A", .) %>%
         gsub("\r", "%0D", .)
