@@ -36,10 +36,10 @@ s_break <- md %>%
     .[[1]]
 
 writeLines(md[1:(s_break - 1)], "summary.md")
-cat("::set-output name=summary_md::", fs::path_wd("summary.md"), "\n")
+cat("::set-output name=summary_md::", fs::file_copy("summary.md", file_dir), "\n")
 
 writeLines(md, "full.md")
-cat("::set-output name=full_md::", fs::path_wd("summary.md"), "\n")
+cat("::set-output name=full_md::", fs::file_copy("full.md", file_dir), "\n")
 
 
 file <- render_markdown(md, FALSE) %>% fs::file_copy(file_dir)
