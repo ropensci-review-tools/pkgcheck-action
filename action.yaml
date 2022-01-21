@@ -45,18 +45,39 @@ runs:
       with:
         script: |
           const query = "repo:${{ github.repository }} is:issue is:open user:app/github-actions in:title ${{ inputs.issue-title }}"
-          console.log(query)
           const issues = await github.rest.search.issuesAndPullRequests({ q: query, sort: "created" })
-          let issue_id
+          let issue_nr
           if(typeof issues === 'undefined') {
-            issue_id = -1
+            issue_nr = -1
           } else {
-             const issue = issues.data.items.find(e => e.title === '${{ inputs.issue-title }}' && e.state === 'open' && e.user.login === 'github-actions')
-             issue_id = typeof issue === 'undefined' ? -1 : issue.id
+            const issue = issues.data.items.find(function (x) {
+              e.title === '${{ inputs.issue-title }}' &&
+                e.state === 'open' &&
+                e.user.login === 'github-actions'
+            })
+            issue_nr = typeof issue === 'undefined' ? -1 : issue.number
           }
-          return issue_id
-    - name: Log issue id
-      if: $${{ inputs.post-to-issue}} 
-      run: echo ${{ steps.get-id.outputs.result }}
-      shell: bash
+          return issue_nr
+    - name: Update Issue
+      if: ${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue}}
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.issue.update({
+            owner: '${{ github.repository_owner }}',
+            repo: '${{ github.repository }}'.split('/', 2),
+            issue_number: ${{ steps.get-id.outputs.result }},
+            body: "## Checks for [touchstone (v0.0.0.9002)](https://github.com/lorenzwalthert/touchstone)%0A%0Agit hash: [3c213df5](https://github.com/lorenzwalthert/touchstone/tree/3c213df5bb2c350603d821a934aab8716f439d87)%0A%0A- :heavy_check_mark: Package name is available%0A- :heavy_multiplication_x: does not have a 'CITATION' file.%0A- :heavy_multiplication_x: does not have a 'codemeta.json' file.%0A- :heavy_multiplication_x: does not have a 'contributing' file.%0A- :heavy_check_mark: uses 'roxygen2'.%0A- :heavy_check_mark: 'DESCRIPTION' has a URL field.%0A- :heavy_check_mark: 'DESCRIPTION' has a BugReports field.%0A- :heavy_check_mark: Package has at least one HTML vignette%0A- :heavy_multiplication_x: These functions do not have examples: [benchmark_analyze, benchmark_ls, benchmark_read, benchmark_run, benchmark_write, branch_get_or_fail, branch_install, path_pinned_asset, pr_comment, touchstone_managers, touchstone_script, use_touchstone].%0A- :heavy_multiplication_x:  Package has no continuous integration checks.%0A- :heavy_check_mark: Package coverage is 86%25.%0A- :heavy_check_mark: R CMD check found no errors.%0A- :heavy_check_mark: R CMD check found no warnings.%0A%0A**Important:** All failing checks above must be addressed prior to proceeding%0A%0APackage License: MIT + file LICENSE%0A",
+          })
+    - name: Create Issue
+      if: ${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue}}
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.issue.create({
+            owner: '${{ github.repository_owner }}',
+            repo: '${{ github.repository }}'.split('/', 2),
+            title: '${{ inputs.issue-title }}'
+            body: "## Checks for [touchstone (v0.0.0.9002)](https://github.com/lorenzwalthert/touchstone)%0A%0Agit hash: [3c213df5](https://github.com/lorenzwalthert/touchstone/tree/3c213df5bb2c350603d821a934aab8716f439d87)%0A%0A- :heavy_check_mark: Package name is available%0A- :heavy_multiplication_x: does not have a 'CITATION' file.%0A- :heavy_multiplication_x: does not have a 'codemeta.json' file.%0A- :heavy_multiplication_x: does not have a 'contributing' file.%0A- :heavy_check_mark: uses 'roxygen2'.%0A- :heavy_check_mark: 'DESCRIPTION' has a URL field.%0A- :heavy_check_mark: 'DESCRIPTION' has a BugReports field.%0A- :heavy_check_mark: Package has at least one HTML vignette%0A- :heavy_multiplication_x: These functions do not have examples: [benchmark_analyze, benchmark_ls, benchmark_read, benchmark_run, benchmark_write, branch_get_or_fail, branch_install, path_pinned_asset, pr_comment, touchstone_managers, touchstone_script, use_touchstone].%0A- :heavy_multiplication_x:  Package has no continuous integration checks.%0A- :heavy_check_mark: Package coverage is 86%25.%0A- :heavy_check_mark: R CMD check found no errors.%0A- :heavy_check_mark: R CMD check found no warnings.%0A%0A**Important:** All failing checks above must be addressed prior to proceeding%0A%0APackage License: MIT + file LICENSE%0A",
+          })
           
