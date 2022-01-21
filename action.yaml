@@ -63,7 +63,7 @@ runs:
       uses: actions/github-script@v5
       with:
         script: |
-          github.rest.issue.update({
+          github.rest.issues.update({
             owner: '${{ github.repository_owner }}',
             repo: '${{ github.repository }}'.split('/', 2),
             issue_number: ${{ steps.get-id.outputs.result }},
