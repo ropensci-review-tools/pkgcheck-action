@@ -66,11 +66,7 @@ runs:
         result-encoding: string
         script: |
           return "${{ github.repository }}".split("/", 2)[1]
-    - id: get-body
-      uses: actions/github-script@v5
-      with:
-        script:
-    - name: Creat/Update Issue
+    - name: Create/Update Issue
       uses: actions/github-script@v5
       with:
         script: |
