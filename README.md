@@ -30,7 +30,7 @@ on:
   workflow_dispatch:
   # Run on every push to main
   push:
-    branch: 
+    branches: 
       - main
 
 jobs: 
