@@ -76,7 +76,6 @@ runs:
 
           try {
             issue_body = fs.readFileSync(md_path, 'utf8')
-            console.log(issue_body)
           } catch (err) {
             console.error(err)
           }

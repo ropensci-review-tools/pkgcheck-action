@@ -18,6 +18,10 @@ if (packageVersion("sessioninfo") >= "1.2.1") {
     options(width = 200)
     sessioninfo::session_info(rownames(installed.packages()), include_base = TRUE)
 }
+
+# prevent rcmdcheck NOTE
+usethis::use_build_ignore(".pkgcheck")
+
 c("::endgroup::\n")
 
 cat("::group::Running pkgcheck\n")

@@ -6,6 +6,7 @@ pak::lockfile_create(
     c(
         "any::data.table",
         "any::fs",
+        "any::usethis",
         "any::sessioninfo",
         "github::ropensci-review-tools/pkgcheck"
     ),
