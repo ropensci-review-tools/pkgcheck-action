@@ -67,5 +67,5 @@ octo_start_group("Check Results")
 print(check)
 octo_end_group()
 
-as.numeric(length(errors) > 0) %>%
+as.numeric(length(errors) > 0) %>% encode_string() %>%
     octo_set_output("status")
