@@ -17,10 +17,6 @@ inputs:
     description: "Only post the check summary to issue. Set to false to get the full results in the issue."
     default: true
     required: true
-  tag:
-    description: 'Which package tag to use. For testing and debugging only! In production always use the default!'
-    default: 'latest'
-    reuired: true
 
 runs:
   using: "composite"
