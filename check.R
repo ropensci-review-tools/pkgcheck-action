@@ -1,9 +1,11 @@
 library(pkgcheck)
 library(magrittr)
+library(octolog)
+enable_github_colors()
 
 pak::pak_update()
+octo_start_group("Install dependencies")
 
-cat("::group::Install dependencies\n\n")
 file_dir <- fs::dir_create(".pkgcheck")
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
 pak::lockfile_create(
@@ -22,17 +24,14 @@ if (packageVersion("sessioninfo") >= "1.2.1") {
 # prevent rcmdcheck NOTE
 usethis::use_build_ignore(".pkgcheck")
 
-c("::endgroup::\n")
+octo_end_group()
 
-cat("::group::Running pkgcheck\n")
+octo_start_group("Running Pkgcheck...")
 pkgstats::ctags_install(sudo = TRUE)
 
 check <- pkgcheck()
-cat(
-    "::set-output name=visnet_path::",
-    fs::file_copy(check$info$network_file, file_dir),
-    "\n"
-)
+fs::file_copy(check$info$network_file, file_dir) %>%
+    octo_set_output("visnet_path")
 
 md <- checks_to_markdown(check)
 s_break <- md %>%
@@ -40,20 +39,20 @@ s_break <- md %>%
     .[[1]]
 
 writeLines(md[1:(s_break - 1)], "summary.md")
-cat("::set-output name=summary_md::", fs::file_copy("summary.md", file_dir), "\n")
+fs::file_copy("summary.md", file_dir) %>%
+    octo_set_output("summary_md")
+
 
 writeLines(md, "full.md")
-cat("::set-output name=full_md::", fs::file_copy("full.md", file_dir), "\n")
+fs::file_copy("full.md", file_dir) %>%
+    octo_set_output("full_md")
 
 
-file <- render_markdown(md, FALSE) %>% fs::file_copy(file_dir)
+render_markdown(md, FALSE) %>%
+    fs::file_copy(file_dir) %>%
+    octo_set_output("results")
 
-cat(
-    "::set-output name=results::",
-    file,
-    "\n"
-)
-cat("::endgroup::\n")
+octo_end_group()
 
 errors <- grep(":heavy_multiplication_x:", md) %>%
     `[`(md, .) %>%
@@ -64,9 +63,9 @@ for (error in errors) {
     cat(error)
 }
 
-cat("::group::Check Results\n")
+octo_start_group("Check Results")
 print(check)
-cat("::endgroup::\n")
+octo_end_group()
 
 as.numeric(length(errors) > 0) %>%
-    cat("::set-output name=status::", ., "\n")
+    octo_set_output("status")
