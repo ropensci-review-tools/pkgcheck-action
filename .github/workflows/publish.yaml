@@ -24,6 +24,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ghcr.io/ropensci-review-tools/pkgcheck-action
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+             type=raw,value=latest,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
+
       - name: Login to GitHub Container Registry
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/login-action@v1 
@@ -39,4 +49,4 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/ropensci-review-tools/pkgcheck-action:latest
+          tags: ${{ steps.meta.outputs.labels }}
