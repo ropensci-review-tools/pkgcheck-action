@@ -32,7 +32,7 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-             type=raw,value=latest,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
+            type=raw,value=latest,enable=${{ endsWith(github.ref, 'main') }}
 
       - name: Login to GitHub Container Registry
         if: ${{ github.event_name != 'pull_request' }}
