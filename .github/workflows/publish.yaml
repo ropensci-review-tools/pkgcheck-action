@@ -35,8 +35,8 @@ jobs:
         shell: Rscript {0}
       - name: Commit changes
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name  "Github Actions"
+          git config user.email "github-actions@github.com"
           git commit README.md -m 'Update README.md' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
 
