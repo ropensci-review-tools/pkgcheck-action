@@ -4,18 +4,14 @@
 [![Build & Push Docker](https://github.com/ropensci-review-tools/pkgcheck-action/actions/workflows/publish.yaml/badge.svg)](https://github.com/ropensci-review-tools/pkgcheck-action/actions/workflows/publish.yaml)
 <!-- badges: end -->
 
-Use Github Actions to check your R package with [{pkgcheck}](https://docs.ropensci.org/pkgcheck/) and make sure it is ready to submit to [rOpenSci](https://ropensci.org/)'s peer review system. 
-The results will be posted in a new or updated Issue and uploaded as workflow artifacts.
+This package contains a Github Actions script to automatically check R packages with [rOpenSci's {pkgcheck} system](https://docs.ropensci.org/pkgcheck/) which is run on all packages submitted for peer review.
+This action will implement a GitHub Action to ensure your package is ready  to submit to [rOpenSci](https://ropensci.org/)'s peer review system. 
+The results are shown in the workflow output, and can also be posted in a new or updated GitHub Issue.
 
 ## Usage
-You can either use `pkgcheck::use_github_check()` within your package repository or copy the basic workflow file below into `.github/workflows/pkgcheck.yaml`.
 
-### Workflow triggers
-If you want the results to be posted as an issue the workflow will need write access to your repo. This is automatically the case for events triggered within your repo like pushes and PRs from collaborators with write access.
-
-If a PR is opened from outside the repo e.g. a fork, the default `github.token` will not have write access to protect your repository from malicious actors, if you use the `pull_request` trigger. The default setting for the `post-to-issue` trigger is set to prevent failure in case of pr
-
-:warning::warning: ***Never use the `pull_request_target` trigger as this will allow forks to run arbitrary code with access to your repos secrets***:warning::warning: For more information see [here](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/).
+Like the GitHub actions functions from [the `usethis` package](https://usethis.r-lib.org/reference/index.html#git-and-github), the [`pkgcheck::use_github_action_pkcheck()` function](https://docs.ropensci.org/pkgcheck/reference/use_github_action_pkgcheck.html) will create a workflow file called `pkgcheck.yaml` in your local `.github/workflows` directory.
+The default workflow has the following relatively simple structure:
 
 ```yaml
 name: pkgcheck
@@ -39,7 +35,15 @@ jobs:
     steps:
       - uses: ropensci-review-tools/pkgcheck-action@main
 ```
-### Inputs
+
+There are also several parameters which can be used to modify the workflow, as described in the following section.
+
+### Workflow parameters
+
+The [`yaml` workflow
+file](https://github.com/ropensci-review-tools/pkgcheck-action/blob/main/action.yaml)
+which defines this action includes the following list of inputs:
+
 ```yaml
 inputs:
   ref:
@@ -64,52 +68,54 @@ inputs:
     default: true
     required: true
 ```
-## Versions
-This action has no version tags, as you will always want to pass the newest {pgkcheck} available.
 
-## Advanced Usage
+The easiest way to customise these inputs is with [the `pkgcheck::use_github_action_pkgcheck()` function](https://docs.ropensci.org/pkgcheck/reference/use_github_action_pkgcheck.html) in R, the documentation of which includes the following example:
 
-If you want to customize your workflow in a way not possible with the inputs provided, you can use the container supplied by this repository as a base for a custom workflow.
+``` r
+use_github_action_pkgcheck (inputs = list (`post-to-issue` = "false"))
+```
 
-A simple example using the `check.R` file from this repository:
+That will produce a `.github/workflows/pkgcheck.yaml` file (or will update an existing file by setting the additional parameter, `overwrite = TRUE`) with the `job:` section changed from the default version shown above of:
+
 ```yaml
-name: pkgcheck
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
-  cancel-in-progress: true
-
-on: 
-  # Manual trigger
-  workflow_dispatch:
-  # Run on every push to main
-  push:
-    branches:
-      - main
-  # Run on every PR to main
-  pull_request:
-    branches:
-      - main
-
-jobs:
+jobs: 
   check:
     runs-on: ubuntu-latest
-    container: ghcr.io/ropensci-review-tools/pkgcheck-action:latest
-    env: 
-      GITHUB_PAT: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Run pkgcheck
-        id: pkgcheck
-        run: source("check.R")  # adjust path to script here
-        shell: Rscript {0}
-      - uses: actions/upload-artifact@v2
-        with:
-          name: visual-network
-          path: "${{ steps.pkgcheck.outputs.visnet_path }}"
-      - uses: actions/upload-artifact@v2
-        with:
-          name: results
-          path: "${{ steps.pkgcheck.outputs.results }}"
-
+      - uses: ropensci-review-tools/pkgcheck-action@main
 ```
+
+to the modified version of:
+
+```yaml
+jobs: 
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ropensci-review-tools/pkgcheck-action@main
+        with:
+          summary-only: false
+```
+
+That demonstrates that setting any of these parameters to non-default values by passing them as named list items to `pkgcheck::use_github_action_pkgcheck()` appends additional `yaml` lines to the workflow file through the `with:` statement.
+Workflows can thus be controlled either from R as shown above, or by directly editing the workflow file using `with:` statements.
+In R:
+
+- Parameters must be passed as named items of a list named "inputs"
+- Parameter names containing dashes must be specified within backticks.
+- Parameter values must be specified in quotation marks.
+
+In yaml scripts, parameter names and values should be specified exactly "as is", without quotation marks or backticks.
+
+### Posting {pgkcheck} results to a GitHub issue in your repository
+
+The default workflow file posts the {pkgcheck} results to an issue in the repository in which it was run. This requires the workflow to have write access to your repo, which is automatically the case for events triggered within your repository such as pushes and pull requests from collaborators with write access.
+
+If a pull request is opened from outside the repository such as from a fork, the default `github.token` will not have write access, and so will not be able to put results in an issue.
+This default behaviour protects your repository from malicious use of `pull_request` triggers.
+
+:warning::warning: ***Never use the `pull_request_target` trigger as this will allow forks to run arbitrary code with access to your repos secrets***:warning::warning: For more information see [here](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/).
+
+## Versions
+
+This action has no version tags, as you will always want to pass the newest {pgkcheck} available.
