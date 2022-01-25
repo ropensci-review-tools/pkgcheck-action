@@ -21,15 +21,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
-on: 
+on:
   # Manually trigger the Action under Actions/pkgcheck
   workflow_dispatch:
   # Run on every push to main
   push:
-    branches: 
+    branches:
       - main
 
-jobs: 
+jobs:
   check:
     runs-on: ubuntu-latest
     steps:
@@ -60,7 +60,7 @@ inputs:
   issue-title:
     description: "Name for the issue containing the pkgcheck results. Will be created or updated."
     # This will create a new issue for every branch, set it to something fixed 
-    # to only create one issue.
+    # to only create one issue that is updated via edits. 
     default: "pkgcheck results - ${{ github.ref_name }}"
     required: true
   summary-only:
