@@ -17,7 +17,7 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
-  
+
 jobs:
   update-readme:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
             github::ropensci-review-tools/pkgcheck@main
             any::here
       - name: Update README.md
-        run: source("insert-inputs.R")
+        run: source("R/insert-inputs.R")
         shell: Rscript {0}
       - name: Commit changes
         run: |

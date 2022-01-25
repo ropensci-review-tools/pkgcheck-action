@@ -4,6 +4,6 @@ LABEL maintainer="Jacob Wujciak-Jens <jacob@wujciak.de>"
 COPY check.R /check.R
 COPY install.R /install.R
 
-RUN ["Rscript", "/install.R"]
+RUN ["Rscript", "R/install.R"]
 
-ENTRYPOINT [ "Rscript", "/check.R" ]
+ENTRYPOINT [ "Rscript", "R/check.R" ]

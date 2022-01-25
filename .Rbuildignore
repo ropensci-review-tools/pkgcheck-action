@@ -1,0 +1,9 @@
+^pkgcheck-action\.Rproj$
+^\.Rproj\.user$
+^Dockerfile$
+^makefile$
+^action\.yaml$
+^R/check\.R$
+^R/install\.R$
+^R/insert-inputs\.R$
+^\.github$
