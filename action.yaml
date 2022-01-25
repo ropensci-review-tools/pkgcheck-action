@@ -22,7 +22,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout repo
-      if: ${{ inputs.ref != ""}}
+      if: ${{ inputs.ref != ''}}
       uses: actions/checkout@v2
       with:
         ref: "${{ inputs.ref }}"
@@ -66,28 +66,39 @@ runs:
         result-encoding: string
         script: |
           return "${{ github.repository }}".split("/", 2)[1]
-    - name: Update Issue
-      if: ${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue}}
+    - name: Create/Update Issue
       uses: actions/github-script@v5
       with:
         script: |
-          github.rest.issues.update({
-            owner: "${{ github.repository_owner }}",
-            repo: "${{ steps.get-repo.outputs.result }}",
-            issue_number: ${{ steps.get-id.outputs.result }},
-            body: ${{ inputs.summary-only }} ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}",
-            })
-    - name: Create Issue
-      if: ${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue}}
-      uses: actions/github-script@v5
-      with:
-        script: |
-          github.rest.issues.create({
-            owner: "${{ github.repository_owner }}",
-            repo: "${{ steps.get-repo.outputs.result }}",
-            title: "${{ inputs.issue-title }}",
-            body: "${{ inputs.summary-only }}" === "true" ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}",
-            })
+          const fs = require('fs')
+          const md_path = ("${{ inputs.summary-only }}" === "true" ? "${{ steps.pkgcheck.outputs.summary_md }}" : "${{ steps.pkgcheck.outputs.full_md }}").trim()
+          let issue_body;
+
+          try {
+            issue_body = fs.readFileSync(md_path, 'utf8')
+          } catch (err) {
+            console.error(err)
+          }
+
+          const owner = "${{ github.repository_owner }}"
+          const repo = "${{ steps.get-repo.outputs.result }}"
+
+          if (${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue }}) {
+              github.rest.issues.update({
+                  owner: owner,
+                  repo: repo,
+                  issue_number: "${{ steps.get-id.outputs.result }}",
+                  body: issue_body,
+              })
+          } else if (${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue }}) {
+              github.rest.issues.create({
+                  owner: owner,
+                  repo: repo,
+                  title: "${{ inputs.issue-title }}",
+                  body: issue_body
+              })
+          }
+          
     - name: Fail if pkgcheck found problems
       run: exit ${{ steps.pkgcheck.outputs.status }}
       shell: bash

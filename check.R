@@ -18,6 +18,10 @@ if (packageVersion("sessioninfo") >= "1.2.1") {
     options(width = 200)
     sessioninfo::session_info(rownames(installed.packages()), include_base = TRUE)
 }
+
+# prevent rcmdcheck NOTE
+usethis::use_build_ignore(".pkgcheck")
+
 c("::endgroup::\n")
 
 cat("::group::Running pkgcheck\n")
@@ -30,30 +34,16 @@ cat(
     "\n"
 )
 
-# Multiline-Strings have to be escaped to be used in gh step output
-# Doubele quotes also need to be switched to single quotes
-escape_gh <- function(string) {
-    string %>%
-        gsub("\"", "\'", .) %>%
-        gsub("%", "%25", .) %>%
-        gsub("\n", "%0A", .) %>%
-        gsub("\r", "%0D", .)
-}
-
 md <- checks_to_markdown(check)
 s_break <- md %>%
     grep("---", .) %>%
     .[[1]]
 
-md[1:(s_break - 1)] %>%
-    paste0(collapse = "\n") %>%
-    escape_gh() %>%
-    cat("::set-output name=summary_md::", ., "\n")
+writeLines(md[1:(s_break - 1)], "summary.md")
+cat("::set-output name=summary_md::", fs::file_copy("summary.md", file_dir), "\n")
 
-md %>%
-    paste0(collapse = "\n") %>%
-    escape_gh() %>%
-    cat("::set-output name=full_md::", ., "\n")
+writeLines(md, "full.md")
+cat("::set-output name=full_md::", fs::file_copy("full.md", file_dir), "\n")
 
 
 file <- render_markdown(md, FALSE) %>% fs::file_copy(file_dir)
