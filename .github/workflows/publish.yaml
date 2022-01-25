@@ -42,7 +42,7 @@ jobs:
 
   push:
     needs: update-readme
-    if: ${{needs.update-readme.result == 'skipped' || needs.update-readme.result == 'success' }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     outputs:
       update_readme: ${{ steps.check.outputs.update_readme}}
