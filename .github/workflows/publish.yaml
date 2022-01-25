@@ -13,8 +13,34 @@ on:
     branches: 
       - main
 
+# This will cancel running jobs once a new run is triggered
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+  
 jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            github::ropensci-review-tools/pkgcheck@main
+            any::here
+      - name: Update README.md
+        run: source("insert-inputs.R")
+        shell: Rscript {0}
+      - name: Commit changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit README.md -m 'Update README.md' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"
+
   push:
+    needs: update-readme
     runs-on: ubuntu-latest
     outputs:
       update_readme: ${{ steps.check.outputs.update_readme}}
@@ -63,23 +89,4 @@ jobs:
            cat`"
         shell: bash
 
-  update-readme:
-    needs: push
-    if: ${{ needs.push.outputs.update_readme }}
-    runs-on: ubuntu-latest
-    container: ghcr.io/ropensci-review-tools/pkgcheck-action
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
-      - name: Update README.md
-        run: source("insert-inputs.R")
-        shell: Rscript {0}
-      - name: Commit changes
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add "README.md"
-          git commit -m "Update README"
-          git push
 
