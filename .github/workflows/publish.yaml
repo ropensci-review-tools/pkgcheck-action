@@ -70,6 +70,8 @@ jobs:
     container: ghcr.io/ropensci-review-tools/pkgcheck-action
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
       - name: Update README.md
         run: source("insert-inputs.R")
         shell: Rscript {0}
