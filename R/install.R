@@ -7,6 +7,7 @@ pak::lockfile_create(
         "any::data.table",
         "any::fs",
         "any::usethis",
+        "any::here",
         "any::sessioninfo",
         "github::ropensci-review-tools/pkgcheck",
         "github::assignUser/octolog"
