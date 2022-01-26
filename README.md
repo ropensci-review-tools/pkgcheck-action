@@ -1,6 +1,6 @@
 # {pkgcheck} Github Action
 <!-- badges: start -->
-[![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Build & Push Docker](https://github.com/ropensci-review-tools/pkgcheck-action/actions/workflows/publish.yaml/badge.svg)](https://github.com/ropensci-review-tools/pkgcheck-action/actions/workflows/publish.yaml)
 <!-- badges: end -->
 
