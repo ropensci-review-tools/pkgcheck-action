@@ -1,4 +1,4 @@
-LFILE = insert-inputs
+LFILE = R/insert-inputs
 
 all: insert
 
