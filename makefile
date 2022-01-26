@@ -1,6 +1,9 @@
 LFILE = R/insert-inputs
 
-all: insert
+all: contrib insert
+
+contrib:
+	Rscript -e "allcontributors::add_contributors()"
 
 insert: $(LFILE).R
 	Rscript $(LFILE).R
