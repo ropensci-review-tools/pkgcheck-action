@@ -29,10 +29,11 @@ jobs:
         with:
           extra-packages: |
             github::ropensci-review-tools/pkgcheck@main
+            github::ropenscilabs/allcontributors
+            github::assignUser/octolog
             any::here
       - name: Update README.md
-        run: source("R/insert-inputs.R")
-        shell: Rscript {0}
+        run: make
       - name: Commit changes
         run: |
           git config user.name  "Github Actions"
@@ -44,8 +45,6 @@ jobs:
     needs: update-readme
     if: ${{ always() }}
     runs-on: ubuntu-latest
-    outputs:
-      update_readme: ${{ steps.check.outputs.update_readme}}
     steps:
       - uses: actions/checkout@v2
       - name: Set up QEMU
@@ -82,11 +81,3 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Check if action.yaml changed
-        id: check
-        run: >
-          echo "::set-output name=update_readme::
-          `git show --name-only --oneline |
-            grep -c action.yaml |
-            cat`"
-        shell: bash
