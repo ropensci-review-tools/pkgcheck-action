@@ -93,13 +93,6 @@ runs:
           const repo = "${{ steps.get-repo.outputs.result }}"
 
           if (${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue }}) {
-              github.rest.issues.update({
-                  owner: owner,
-                  repo: repo,
-                  issue_number: "${{ steps.get-id.outputs.result }}",
-                  body: issue_body,
-              })
-          } else if (${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue }}) {
             if (${{ inputs.append-to-issue }}) {
               github.rest.issues.createComment({
                 owner: owner,
@@ -108,6 +101,14 @@ runs:
                 boxy: issue_body
               })
             } else {
+              github.rest.issues.update({
+                  owner: owner,
+                  repo: repo,
+                  issue_number: "${{ steps.get-id.outputs.result }}",
+                  body: issue_body,
+              })
+            }
+          } else if (${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue }}) {
               github.rest.issues.create({
                   owner: owner,
                   repo: repo,
