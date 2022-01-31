@@ -67,6 +67,10 @@ inputs:
     description: "Only post the check summary to issue. Set to false to get the full results in the issue."
     default: true
     required: true
+  append-to-issue:
+    description: "Should issue results be appended to existing issue, or posted in new issues."
+    default: true
+    required: true
 ```
 
 The easiest way to customise these inputs is with [the `pkgcheck::use_github_action_pkgcheck()` function](https://docs.ropensci.org/pkgcheck/reference/use_github_action_pkgcheck.html) in R, the documentation of which includes the following example:
