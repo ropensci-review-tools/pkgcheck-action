@@ -22,6 +22,10 @@ inputs:
     description: "Only post the check summary to issue. Set to false to get the full results in the issue."
     default: true
     required: true
+  append-to-issue:
+    description: "Should issue results be appended to existing issue, or posted in new issues."
+    default: true
+    required: true
 
 runs:
   using: "composite"
@@ -89,12 +93,21 @@ runs:
           const repo = "${{ steps.get-repo.outputs.result }}"
 
           if (${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue }}) {
+            if (${{ inputs.append-to-issue }}) {
+              github.rest.issues.createComment({
+                owner: owner,
+                repo: repo,
+                issue_number: "${{ steps.get-id.outputs.result }}",
+                body: issue_body
+              })
+            } else {
               github.rest.issues.update({
                   owner: owner,
                   repo: repo,
                   issue_number: "${{ steps.get-id.outputs.result }}",
                   body: issue_body,
               })
+            }
           } else if (${{ steps.get-id.outputs.result == -1 && inputs.post-to-issue }}) {
               github.rest.issues.create({
                   owner: owner,
