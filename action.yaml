@@ -97,7 +97,7 @@ runs:
               github.rest.issues.createComment({
                 owner: owner,
                 repo: repo,
-                issue_number: "${{ steps.get-id.outputs.results }}",
+                issue_number: "${{ steps.get-id.outputs.result }}",
                 body: issue_body
               })
             } else {
