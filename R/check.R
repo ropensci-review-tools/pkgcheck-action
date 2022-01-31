@@ -54,13 +54,12 @@ render_markdown(md, FALSE) %>%
 
 octo_end_group()
 
-errors <- grep(":heavy_multiplication_x:", md) %>%
+errors <- md[1:s_break] %>% grep("^- :heavy_multiplication_x:", .) %>%
     `[`(md, .) %>%
-    gsub("- :heavy_multiplication_x:", "::error ::", .) %>%
-    paste0("\n")
+    gsub("^- :heavy_multiplication_x: ", "", .)
 
 for (error in errors) {
-    cat(error)
+    octo_abort(error, .fail_fast = FALSE)
 }
 
 octo_start_group("Check Results")
