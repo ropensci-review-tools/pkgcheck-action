@@ -1,5 +1,8 @@
 name: "pkgcheck"
 description: "Test your package with {pkgcheck}."
+branding:
+  icon: 'check-circle'
+  color: 'blue'
 inputs:
   ref:
     description: "The ref to checkout and check. Set to empty string to skip checkout."
