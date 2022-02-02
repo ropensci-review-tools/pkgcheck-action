@@ -7,6 +7,9 @@ on:
     # Publish `main` as Docker `latest` image.
     branches:
       - main
+    paths:
+      - "Dockerfile"
+      - "**.R"
 
   # Run tests for any PRs.
   pull_request:
