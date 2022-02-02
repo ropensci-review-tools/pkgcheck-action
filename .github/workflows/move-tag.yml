@@ -17,5 +17,5 @@ jobs:
           git config user.name  "Github Actions"
           git config user.email "github-actions@github.com"
           git push --delete origin v1
-          git tag -fa v1
+          git tag -fa v1 -m"Rolling release"
           git push origin main --tags
