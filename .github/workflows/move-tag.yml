@@ -1,0 +1,21 @@
+# This iworkflow moves the v1 tag along with HEAD
+
+name: Move v1
+
+on:
+  push:
+    branches: [ main ]
+
+
+jobs:
+  move:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Move tag
+        run: |
+          git config user.name  "Github Actions"
+          git config user.email "github-actions@github.com"
+          git push --delete origin v1
+          git tag -fa v1
+          git push origin main --tags
