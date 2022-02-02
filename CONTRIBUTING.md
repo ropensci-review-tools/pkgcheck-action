@@ -1,4 +1,4 @@
-# Contributing to octolog
+# Contributing to pkgcheck-action
 
 ## Opening issues
 
@@ -16,7 +16,7 @@ there's a nice [overview of git](https://r-pkgs.org/git.html), as well
 as [best practices for submitting pull requests](http://r-pkgs.org/git.html#pr-make)
 in the R packages book by Hadley Wickham and Jenny Bryan.
 
-`octolog` uses the [the commonly used tidyverse style
+`pkgcheck-action` uses the [the commonly used tidyverse style
 guide](https://style.tidyverse.org/syntax.html#spacing). Tools like [`styler`](https://styler.r-lib.org/) and [`lintr`](https://github.com/r-lib/lintr) can make it easier to adhere to this style.
 
 All(75%+) new code should be covered by unit test using [`testthat`](https://testthat.r-lib.org/index.html) 3rd edition.
