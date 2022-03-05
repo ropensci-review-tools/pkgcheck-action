@@ -1,5 +1,9 @@
+cat("::group::Install pak", sep = "\n")
 devtools::install_github("r-lib/pak@1311b92dfcb35c6596070cb80211179dcb7d1a5d")
+pak:::create_dev_lib()
+cat("::endgroup::", sep = "\n")
 
+cat("::group::Install dependencies", sep = "\n")
 dir.create("lckfile", showWarnings = FALSE)
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
 
@@ -18,6 +22,7 @@ pak::lockfile_create(
 )
 
 pak::lockfile_install("lckfile/pkg.lock")
+cat("::endgroup::", sep = "\n")
 
 if (packageVersion("sessioninfo") >= "1.2.1") {
     sessioninfo::session_info(pkgs = "installed", include_base = TRUE)
