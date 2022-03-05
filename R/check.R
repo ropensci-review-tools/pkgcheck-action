@@ -3,7 +3,6 @@ library(magrittr)
 library(octolog)
 enable_github_colors()
 
-pak::pak_update()
 octo_start_group("Install dependencies")
 
 file_dir <- fs::dir_create(".pkgcheck")

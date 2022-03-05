@@ -1,4 +1,5 @@
-install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
+
+install.packages("pak", repos = "https://r-lib.github.io/p/pak/stable/")
 dir.create("lckfile", showWarnings = FALSE)
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
 
@@ -22,5 +23,8 @@ if (packageVersion("sessioninfo") >= "1.2.1") {
     sessioninfo::session_info(pkgs = "installed", include_base = TRUE)
 } else {
     options(width = 200)
-    sessioninfo::session_info(rownames(installed.packages()), include_base = TRUE)
+    sessioninfo::session_info(
+        rownames(installed.packages()),
+        include_base = TRUE
+    )
 }
