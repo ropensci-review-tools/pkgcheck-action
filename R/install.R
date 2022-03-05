@@ -1,5 +1,5 @@
 
-remotes::install_github("r-lib/pak@1311b92dfcb35c6596070cb80211179dcb7d1a5d", dependencies = TRUE)
+remotes::install_github("r-lib/pak", dependencies = TRUE)
 pak:::create_dev_lib()
 
 
