@@ -1,5 +1,5 @@
 
-install.packages("pak", repos = "https://r-lib.github.io/p/pak/stable/")
+install.packages("pak")
 dir.create("lckfile", showWarnings = FALSE)
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
 
