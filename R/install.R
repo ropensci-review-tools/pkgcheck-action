@@ -1,5 +1,5 @@
+devtools::install_github("r-lib/pak@1311b92dfcb35c6596070cb80211179dcb7d1a5d")
 
-install.packages("pak")
 dir.create("lckfile", showWarnings = FALSE)
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
 
