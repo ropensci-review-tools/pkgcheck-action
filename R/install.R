@@ -1,7 +1,12 @@
 
-remotes::install_github("r-lib/pak", dependencies = TRUE)
-pak:::create_dev_lib()
-
+install.packages("pak",
+    repos = sprintf(
+        "https://r-lib.github.io/p/pak/stable/%s/%s/%s",
+        .Platform$pkgType,
+        R.Version()$os, R.Version()$arch
+    ),
+    dependencies = TRUE
+)
 
 
 dir.create("lckfile", showWarnings = FALSE)
