@@ -1,4 +1,14 @@
-install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
+
+install.packages("pak",
+    repos = sprintf(
+        "https://r-lib.github.io/p/pak/stable/%s/%s/%s",
+        .Platform$pkgType,
+        R.Version()$os, R.Version()$arch
+    ),
+    dependencies = TRUE
+)
+
+
 dir.create("lckfile", showWarnings = FALSE)
 Sys.setenv("PKGCACHE_HTTP_VERSION" = "2")
 
@@ -18,9 +28,13 @@ pak::lockfile_create(
 
 pak::lockfile_install("lckfile/pkg.lock")
 
+
 if (packageVersion("sessioninfo") >= "1.2.1") {
     sessioninfo::session_info(pkgs = "installed", include_base = TRUE)
 } else {
     options(width = 200)
-    sessioninfo::session_info(rownames(installed.packages()), include_base = TRUE)
+    sessioninfo::session_info(
+        rownames(installed.packages()),
+        include_base = TRUE
+    )
 }
