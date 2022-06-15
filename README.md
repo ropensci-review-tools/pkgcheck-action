@@ -120,6 +120,8 @@ This default behaviour protects your repository from malicious use of `pull_requ
 
 :warning::warning: ***Never use the `pull_request_target` trigger as this will allow forks to run arbitrary code with access to your repos secrets***:warning::warning: For more information see [here](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/).
 
+The first time this action is run, {pkgcheck} results will be created in a new issue of your repository. By default, each subsequent run will then append results to the same issue. The issue may be closed at any time, and results will still appear.
+
 ## Versions
 
 This action has no version tags, as you will always want to pass the newest {pgkcheck} available.
