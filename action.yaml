@@ -3,6 +3,8 @@ description: "Test your package with {pkgcheck}."
 branding:
   icon: 'check-circle'
   color: 'blue'
+env:
+  PKGCHECK_ACTION: true
 inputs:
   ref:
     description: "The ref to checkout and check. Set to empty string to skip checkout."
