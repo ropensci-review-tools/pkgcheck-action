@@ -47,7 +47,7 @@ fs::file_copy("full.md", file_dir) %>%
     octo_set_output("full_md")
 
 
-render_markdown(md, FALSE) %>%
+render_md2html(md, FALSE) %>%
     fs::file_copy(file_dir) %>%
     octo_set_output("results")
 
