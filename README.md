@@ -36,6 +36,18 @@ jobs:
       - uses: ropensci-review-tools/pkgcheck-action@main
 ```
 
+Since Github changed the permissions model for CI actions, to have the `pkgcheck-action` open an issue, elevated permissions need to be granted by altering the [permissions of the job](https://docs.github.com/en/actions/security-guides/automatic-token-authentication):
+
+```yaml
+jobs:
+  pkgcheck:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: ropensci-review-tools/pkgcheck-action@main
+```
+
 There are also several parameters which can be used to modify the workflow, as described in the following section.
 
 ### Workflow parameters
