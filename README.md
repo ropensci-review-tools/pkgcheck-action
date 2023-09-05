@@ -32,6 +32,8 @@ on:
 jobs:
   pkgcheck:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - uses: ropensci-review-tools/pkgcheck-action@main
 ```
