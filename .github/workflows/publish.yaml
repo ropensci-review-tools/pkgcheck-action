@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   update-readme:
-  if: false
+    if: false
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: "${{ github.token }}"
