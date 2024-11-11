@@ -52,6 +52,15 @@ jobs:
 
 There are also several parameters which can be used to modify the workflow, as described in the following section.
 
+### Environment variables
+
+This action runs with one environment variable of `CI = "ropensci"`. This
+enables
+[`testthat::skip_on_ci()`](https://testthat.r-lib.org/reference/skip.html),
+which skips tests if a variable named "CI" is set, regardless of value.
+Alternately, tests can be fine-tuned to skip within `pkgcheck` by setting
+`testthat::skip_if(Sys.getenv("CI") == "ropensci")`.
+
 ### Workflow parameters
 
 The [`yaml` workflow
