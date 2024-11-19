@@ -54,12 +54,12 @@ There are also several parameters which can be used to modify the workflow, as d
 
 ### Environment variables
 
-This action runs with one environment variable of `CI = "ropensci"`. This
-enables
+This action runs with two environment variables of `CI = "true"` and
+`"ROPENSCI" = "true"`. The first of these enables
 [`testthat::skip_on_ci()`](https://testthat.r-lib.org/reference/skip.html),
-which skips tests if a variable named "CI" is set, regardless of value.
-Alternately, tests can be fine-tuned to skip within `pkgcheck` by setting
-`testthat::skip_if(Sys.getenv("CI") == "ropensci")`.
+which is commonly used to skips tests on CI systems. The second environment
+variable can be used to skip within `pkgcheck` only by setting
+`testthat::skip_if(Sys.getenv("ROPENSCI") == "true")`.
 
 ### Workflow parameters
 
