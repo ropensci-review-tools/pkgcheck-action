@@ -10,7 +10,7 @@ The results are shown in the workflow output, and can also be posted in a new or
 
 ## Usage
 
-Like the GitHub actions functions from [the `usethis` package](https://usethis.r-lib.org/reference/index.html#git-and-github), the [`pkgcheck::use_github_action_pkcheck()` function](https://docs.ropensci.org/pkgcheck/reference/use_github_action_pkgcheck.html) will create a workflow file called `pkgcheck.yaml` in your local `.github/workflows` directory.
+Like the GitHub actions functions from [the `usethis` package](https://usethis.r-lib.org/reference/index.html#git-and-github), the [`pkgcheck::use_github_action_pkgcheck()` function](https://docs.ropensci.org/pkgcheck/reference/use_github_action_pkgcheck.html) will create a workflow file called `pkgcheck.yaml` in your local `.github/workflows` directory.
 The default workflow has the following relatively simple structure:
 
 ```yaml
@@ -134,7 +134,7 @@ In R:
 
 In yaml scripts, parameter names and values should be specified exactly "as is", without quotation marks or backticks.
 
-### Posting {pgkcheck} results to a GitHub issue in your repository
+### Posting {pkgcheck} results to a GitHub issue in your repository
 
 The default workflow file posts the {pkgcheck} results to an issue in the repository in which it was run. This requires the workflow to have write access to your repo, which is automatically the case for events triggered within your repository such as pushes and pull requests from collaborators with write access.
 
@@ -147,7 +147,7 @@ The first time this action is run, {pkgcheck} results will be created in a new i
 
 ## Versions
 
-This action has no version tags, as you will always want to pass the newest {pgkcheck} available.
+This action has no version tags, as you will always want to pass the newest {pkgcheck} available.
 
 ## Contributors
 
@@ -156,7 +156,7 @@ This action has no version tags, as you will always want to pass the newest {pgk
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
-All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropenscilabs/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
+All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropensci/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
 
 <table>
 
