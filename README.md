@@ -152,11 +152,14 @@ This action has no version tags, as you will always want to pass the newest {pkg
 ## Contributors
 
 
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
-All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropensci/allcontributors) following the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
+All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropensci/allcontributors) following the [allcontributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
+
+### Code
 
 <table>
 
@@ -173,6 +176,52 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </a><br>
 <a href="https://github.com/ropensci-review-tools/pkgcheck-action/commits?author=mpadge">mpadge</a>
 </td>
+<td align="center">
+<a href="https://github.com/atsyplenkov">
+<img src="https://avatars.githubusercontent.com/u/34775595?v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/pkgcheck-action/commits?author=atsyplenkov">atsyplenkov</a>
+</td>
+<td align="center">
+<a href="https://github.com/HaoZeke">
+<img src="https://avatars.githubusercontent.com/u/4336207?v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/pkgcheck-action/commits?author=HaoZeke">HaoZeke</a>
+</td>
+</tr>
+
+</table>
+
+
+### Issues
+
+<table>
+
+<tr>
+<td align="center">
+<a href="https://github.com/schneiderpy">
+<img src="https://avatars.githubusercontent.com/u/77991319?u=4242d4c5942fced6368dd5c68221e6618092cbf8&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/pkgcheck-action/issues?q=is%3Aissue+author%3Aschneiderpy">schneiderpy</a>
+</td>
+<td align="center">
+<a href="https://github.com/joelnitta">
+<img src="https://avatars.githubusercontent.com/u/13459362?u=205e0d1ae66884c3b361a78dd6802cd10160b041&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/pkgcheck-action/issues?q=is%3Aissue+author%3Ajoelnitta">joelnitta</a>
+</td>
+<td align="center">
+<a href="https://github.com/maelle">
+<img src="https://avatars.githubusercontent.com/u/8360597?u=824f03caa87c92420352e3dd9a05470320a67412&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/pkgcheck-action/issues?q=is%3Aissue+author%3Amaelle">maelle</a>
+</td>
+<td align="center">
+<a href="https://github.com/abigailkeller">
+<img src="https://avatars.githubusercontent.com/u/62615943?u=440761884585e76dd048ea1ccf96a78e2df0be5f&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/pkgcheck-action/issues?q=is%3Aissue+author%3Aabigailkeller">abigailkeller</a>
+</td>
 </tr>
 
 </table>
@@ -180,4 +229,5 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
 
