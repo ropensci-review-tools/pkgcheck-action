@@ -32,7 +32,7 @@ check <- pkgcheck()
 fs::file_copy(check$info$network_file, file_dir) %>%
     octo_set_output("visnet_path")
 
-md <- checks_to_markdown(check)
+md <- checks_to_markdown(check, render = FALSE)
 s_break <- md %>%
     grep("---", .) %>%
     .[[1]]
@@ -45,11 +45,6 @@ fs::file_copy("summary.md", file_dir) %>%
 writeLines(md, "full.md")
 fs::file_copy("full.md", file_dir) %>%
     octo_set_output("full_md")
-
-
-render_md2html(md, FALSE) %>%
-    fs::file_copy(file_dir) %>%
-    octo_set_output("results")
 
 octo_end_group()
 
