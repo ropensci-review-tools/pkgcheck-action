@@ -29,8 +29,11 @@ octo_start_group("Running Pkgcheck...")
 pkgstats::ctags_install(sudo = TRUE)
 
 check <- pkgcheck()
-fs::file_copy(check$info$network_file, file_dir) %>%
-    octo_set_output("visnet_path")
+
+if (fs::file_exists (check$info$network_file)) {
+    fs::file_copy(check$info$network_file, file_dir) %>%
+        octo_set_output("visnet_path")
+}
 
 md <- checks_to_markdown(check, render = FALSE)
 s_break <- md %>%
