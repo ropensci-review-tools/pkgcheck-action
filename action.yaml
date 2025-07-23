@@ -43,7 +43,13 @@ runs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       id: pkgcheck
+    - id: check_visnet
+      run: |
+        if [ -f "${{ steps.pkgcheck.outputs.visnet_path }}" ]; then
+          echo "exists=true" >> $GITHUB_OUTPUT
+        fi
     - uses: actions/upload-artifact@v4
+      if: steps.check_visnet.outputs.exists == 'true'
       with:
         name: visual-network
         path: "${{ steps.pkgcheck.outputs.visnet_path }}"
