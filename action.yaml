@@ -44,6 +44,7 @@ runs:
         GITHUB_TOKEN: ${{ github.token }}
       id: pkgcheck
     - uses: actions/upload-artifact@v4
+      if: ${{ steps.pkgcheck.outputs.visnet_path }}
       with:
         if-no-files-found: ignore
         name: visual-network
