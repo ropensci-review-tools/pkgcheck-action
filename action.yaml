@@ -29,6 +29,10 @@ inputs:
     description: "Should issue results be appended to existing issue, or posted in new issues."
     default: true
     required: true
+  overwrite:
+    description: "Should previous results comments be removed and replaced by the updated one? Has no effect when the issue is first opened. Set to false to append new comments instead."
+    default: false
+    required: true
 
 runs:
   using: "composite"
@@ -95,7 +99,21 @@ runs:
 
           if (${{ steps.get-id.outputs.result != -1 && inputs.post-to-issue }}) {
             if (${{ inputs.append-to-issue }}) {
-              github.rest.issues.createComment({
+              if ("${{ inputs.overwrite }}" === "true") {
+                const comments = await github.paginate(github.rest.issues.listComments, {
+                  owner: owner,
+                  repo: repo,
+                  issue_number: ${{ steps.get-id.outputs.result }}
+                })
+                for (const comment of comments.filter(c => c.user.login === "github-actions[bot]")) {
+                  await github.rest.issues.deleteComment({
+                    owner: owner,
+                    repo: repo,
+                    comment_id: comment.id
+                  })
+                }
+              }
+              await github.rest.issues.createComment({
                 owner: owner,
                 repo: repo,
                 issue_number: "${{ steps.get-id.outputs.result }}",

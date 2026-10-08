@@ -36,6 +36,10 @@ jobs:
       issues: write
     steps:
       - uses: ropensci-review-tools/pkgcheck-action@main
+        with:
+          # Replace previous results comments with update ones.
+          # Set to false to append new comments instead.
+          overwrite: true
 ```
 
 Since Github changed the permissions model for CI actions, to have the `pkgcheck-action` open an issue, elevated permissions need to be granted by altering the [permissions of the job](https://docs.github.com/en/actions/security-guides/automatic-token-authentication):
@@ -94,6 +98,10 @@ inputs:
     description: "Should issue results be appended to existing issue, or posted in new issues."
     default: true
     required: true
+  overwrite:
+    description: "Should previous results comments be removed and replaced by the updated one? Has no effect when the issue is first opened. Set to false to append new comments instead."
+    default: true
+    required: true
 ```
 
 The easiest way to customise these inputs is with [the `pkgcheck::use_github_action_pkgcheck()` function](https://docs.ropensci.org/pkgcheck/reference/use_github_action_pkgcheck.html) in R, the documentation of which includes the following example:
@@ -143,7 +151,7 @@ This default behaviour protects your repository from malicious use of `pull_requ
 
 :warning::warning: ***Never use the `pull_request_target` trigger as this will allow forks to run arbitrary code with access to your repos secrets***:warning::warning: For more information see [here](https://securitylab.github.com/research/github-actions-preventing-pwn-requests/).
 
-The first time this action is run, {pkgcheck} results will be created in a new issue of your repository. By default, each subsequent run will then append results to the same issue. The issue may be closed at any time, and results will still appear.
+The first time this action is run, {pkgcheck} results will be created in a new issue of your repository. By default, each subsequent run will then replace the previous results comment in the same issue with an updated one; set `overwrite: false` to append new comments instead. The issue may be closed at any time, and results will still appear.
 
 ### Triggering the action after a long-running workflow
 
