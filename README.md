@@ -36,10 +36,6 @@ jobs:
       issues: write
     steps:
       - uses: ropensci-review-tools/pkgcheck-action@main
-        with:
-          # Replace previous results comments with update ones.
-          # Set to false to append new comments instead.
-          overwrite: true
 ```
 
 Since Github changed the permissions model for CI actions, to have the `pkgcheck-action` open an issue, elevated permissions need to be granted by altering the [permissions of the job](https://docs.github.com/en/actions/security-guides/automatic-token-authentication):
@@ -100,7 +96,7 @@ inputs:
     required: true
   overwrite:
     description: "Should previous results comments be removed and replaced by the updated one? Has no effect when the issue is first opened. Set to false to append new comments instead."
-    default: true
+    default: false
     required: true
 ```
 
