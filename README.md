@@ -173,11 +173,10 @@ This action has no version tags, as you will always want to pass the newest {pkg
 
 ## Contributors
 
-
-
-
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+
 <!-- prettier-ignore-start -->
+
 <!-- markdownlint-disable -->
 
 All contributions to this project are gratefully acknowledged using the [`allcontributors` package](https://github.com/ropensci/allcontributors) following the [allcontributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
@@ -259,9 +258,15 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </td>
 <td align="center">
 <a href="https://github.com/e-kotov">
-<img src="https://avatars.githubusercontent.com/u/8681379?u=c8b4c28fff87ac785df67c71d668c5fa29dde948&v=4" width="100px;" alt=""/>
+<img src="https://avatars.githubusercontent.com/u/8681379?u=7dbc3ab6c79d9549b23fcb0992438c8a89e39478&v=4" width="100px;" alt=""/>
 </a><br>
 <a href="https://github.com/ropensci-review-tools/pkgcheck-action/issues?q=is%3Aissue+author%3Ae-kotov">e-kotov</a>
+</td>
+<td align="center">
+<a href="https://github.com/mccroweyclinton-EPA">
+<img src="https://avatars.githubusercontent.com/u/37708338?u=58f68265725538054769fe2d2cd39a01bacb3161&v=4" width="100px;" alt=""/>
+</a><br>
+<a href="https://github.com/ropensci-review-tools/pkgcheck-action/issues?q=is%3Aissue+author%3Amccroweyclinton-EPA">mccroweyclinton-EPA</a>
 </td>
 </tr>
 
@@ -290,5 +295,8 @@ All contributions to this project are gratefully acknowledged using the [`allcon
 </table>
 
 <!-- markdownlint-enable -->
+
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
