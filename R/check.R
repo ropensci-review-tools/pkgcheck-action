@@ -1,4 +1,3 @@
-library(pkgcheck)
 library(magrittr)
 library(octolog)
 enable_github_colors()
@@ -13,6 +12,9 @@ pak::lockfile_create(
     dependencies = "all"
 )
 pak::lockfile_install(".pkgcheck/pkg.lock")
+# After the install, so that a checkout of pkgcheck itself is checked with
+# its own code rather than the copy baked into this image.
+library(pkgcheck)
 if (packageVersion("sessioninfo") >= "1.2.1") {
     sessioninfo::session_info(pkgs = "installed", include_base = TRUE)
 } else {
