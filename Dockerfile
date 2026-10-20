@@ -1,5 +1,5 @@
 FROM ghcr.io/ropensci-review-tools/pkgcheck:latest
-LABEL maintainer="Jacob Wujciak-Jens <jacob@wujciak.de>"
+LABEL maintainer="Maëlle Salmon <reviewtools@ropensci.org>"
 
 ENV NOT_CRAN "true"
 ENV CI "true"
