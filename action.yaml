@@ -56,7 +56,7 @@ runs:
     - name: Check for active issue
       id: get-id
       if: ${{ inputs.post-to-issue}}
-      uses: actions/github-script@v5
+      uses: actions/github-script@v9
       with:
         script: |
           const bot_name = "github-actions[bot]"
@@ -75,13 +75,13 @@ runs:
           return issue_nr
     - id: get-repo
       if: ${{ inputs.post-to-issue}}
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       with:
         result-encoding: string
         script: |
           return "${{ github.repository }}".split("/", 2)[1]
     - name: Create/Update Issue
-      uses: actions/github-script@v7
+      uses: actions/github-script@v9
       with:
         script: |
           const fs = require('fs')
